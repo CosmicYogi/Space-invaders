@@ -13,7 +13,8 @@ public class PlayerController : MonoBehaviour {
 	public float speed = 12.0f;
 	public float laserSpeed = 15f;
 	public float fireRate = 0.4f;
-	public Transform laser;
+	public float health = 450f;
+	public GameObject laser;
 	void Start () {
 		currentinput = inputMethods.Mouse;
 		float distance = transform.position.z - Camera.main.transform.position.z;
@@ -74,6 +75,21 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Fire(){
-		GameObject laserBeam = Instantiate (laser, transform.position, Quaternion.identity) as GameObject;
+		Vector3 startingPoint = new Vector3 (0, 1, 0) + this.transform.position;
+		GameObject laserBeam = Instantiate (laser, startingPoint, Quaternion.identity) as GameObject;
+		//laserBeam.GetComponent<Rigidbody2D> ().velocity = new Vector3 (0, 4f,0);
+		//Same thing is achieved here by altering the gravity.
+	}
+
+	void OnTriggerEnter2D(Collider2D coll){
+		EnemyProjectile missile = coll.GetComponent<EnemyProjectile> ();
+		if (missile) {
+			print ("hit by a projectile");
+			missile.Hit ();
+			health -= missile.Damage ();
+			if (health <= 0) {
+				Destroy (gameObject);
+			}
+		}
 	}
 }
