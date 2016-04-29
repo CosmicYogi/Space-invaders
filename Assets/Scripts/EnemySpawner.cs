@@ -24,10 +24,7 @@ public class EnemySpawner : MonoBehaviour {
 		max = Camera.main.ViewportToWorldPoint (new Vector3 (1f, 0f, distance.x)).x - padding ;
 		print (min + " and " + max);
 
-		foreach (Transform child in transform) {
-			GameObject enemy = Instantiate (enemyPrefab, child.transform.position , Quaternion.identity) as GameObject;
-			enemy.transform.parent = child;
-		}
+		SpawnUntilFull ();
 	}
 
 	void OnDrawGizmos(){
@@ -56,7 +53,7 @@ public class EnemySpawner : MonoBehaviour {
 
 		if (AllMembersDead ()) {
 			print ("all ememies are dead");
-			ReSpawn ();
+			SpawnUntilFull ();
 		}
 	}
 
@@ -77,10 +74,28 @@ public class EnemySpawner : MonoBehaviour {
 			}
 			return true;
 	}
-	void ReSpawn(){
+	void SpawnEnemies(){
 		foreach (Transform child in transform) {
 			GameObject enemy = Instantiate (enemyPrefab, child.transform.position , Quaternion.identity) as GameObject;
 			enemy.transform.parent = child;
 		}
+	}
+	void SpawnUntilFull(){
+		Transform freePosition = NextFreePosition ();
+		if (freePosition) {
+			GameObject enemy = Instantiate (enemyPrefab, freePosition.position, Quaternion.identity) as GameObject;
+			enemy.transform.parent = freePosition;
+		}
+		if (NextFreePosition()) {
+			Invoke ("SpawnUntilFull", 0.25f);
+		}
+	}
+	Transform NextFreePosition(){
+		foreach (Transform child in transform){
+			if (child.childCount <= 0){
+				return child.transform;
+			}
+		}
+		return null;
 	}
 }
