@@ -3,16 +3,16 @@
 This is a Space Invaders clone made on Unity 3D via C#.
 
 ##Scripting classes / Scripts
-EnemyBehaviour.cs
-EnemyProjectile.cs
-EnemySpawner.cs
-LevelManager.cs
-PlayerController.cs
-Position.cs
-Projectile.cs
-ProjectileDestroyCollider.cs
-ScoreDisplay.cs
-ScoreKeeper.cs
+* EnemyBehaviour.cs
+* EnemyProjectile.cs
+* EnemySpawner.cs
+* LevelManager.cs
+* PlayerController.cs
+* Position.cs
+* Projectile.cs
+* ProjectileDestroyCollider.cs
+* ScoreDisplay.cs
+* ScoreKeeper.cs
 
 ##Scenes
 ###Start Scene
