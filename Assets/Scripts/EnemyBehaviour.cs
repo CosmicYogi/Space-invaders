@@ -7,6 +7,8 @@ public class EnemyBehaviour : MonoBehaviour {
 	public float health = 250;
 	public float shotsPerSecond = 0.5f;
 	public GameObject enemyProjectile;
+	ScoreKeeper scoreKeeperObject;
+	public AudioClip enemyDestroyAudioClip;
 
 	void OnTriggerEnter2D(Collider2D coll){
 		Projectile missile = coll.GetComponent<Projectile> ();
@@ -15,11 +17,16 @@ public class EnemyBehaviour : MonoBehaviour {
 			missile.Hit ();
 			health -= missile.Damage ();
 			if (health <= 0) {
+				AudioSource.PlayClipAtPoint (enemyDestroyAudioClip, this.transform.position);
 				Destroy (gameObject);
+				scoreKeeperObject.ScoreUpdate ();
 			}
 		}
 	}
 
+	void Start(){
+		scoreKeeperObject = GameObject.Find ("Score").GetComponent<ScoreKeeper> ();
+	}
 	void Update (){
 		float probability = Time.deltaTime * shotsPerSecond;
 		if (Random.value < probability) { //Because Random.value returns value between 0 and 1.

@@ -14,7 +14,10 @@ public class PlayerController : MonoBehaviour {
 	public float laserSpeed = 15f;
 	public float fireRate = 0.4f;
 	public float health = 450f;
+	private ScoreKeeper scoreKeeper;
 	public GameObject laser;
+	public AudioClip playerDeadAudioClip;
+	public AudioClip laserShootAudioClip;
 	void Start () {
 		currentinput = inputMethods.Mouse;
 		float distance = transform.position.z - Camera.main.transform.position.z;
@@ -23,6 +26,7 @@ public class PlayerController : MonoBehaviour {
 
 		min = leftMost.x + padding;
 		max = rightMost.x - padding;
+		scoreKeeper = GameObject.Find ("Score").GetComponent<ScoreKeeper> ();
 	}
 
 	void Update () {
@@ -75,6 +79,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void Fire(){
+		AudioSource.PlayClipAtPoint (laserShootAudioClip, this.transform.position);
 		Vector3 startingPoint = new Vector3 (0, 1, 0) + this.transform.position;
 		GameObject laserBeam = Instantiate (laser, startingPoint, Quaternion.identity) as GameObject;
 		//laserBeam.GetComponent<Rigidbody2D> ().velocity = new Vector3 (0, 4f,0);
@@ -88,6 +93,8 @@ public class PlayerController : MonoBehaviour {
 			missile.Hit ();
 			health -= missile.Damage ();
 			if (health <= 0) {
+				scoreKeeper.Reset ();
+				AudioSource.PlayClipAtPoint (playerDeadAudioClip, this.transform.position);
 				Destroy (gameObject);
 			}
 		}
