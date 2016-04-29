@@ -20,8 +20,10 @@ public class ScoreKeeper : MonoBehaviour {
 		score += 100;
 		scoreUIText.text = "Score : " + score;
 	}
-	public void Reset(){
-		score = 0;
+	public void Die(){
 		scoreUIText.text = "Score : " + score;
+	}
+	public static void Reset(){
+		score = 0;
 	}
 }

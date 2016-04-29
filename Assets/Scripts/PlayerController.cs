@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour {
 	public GameObject laser;
 	public AudioClip playerDeadAudioClip;
 	public AudioClip laserShootAudioClip;
+	//public LevelManager lm;
 	void Start () {
 		currentinput = inputMethods.Mouse;
 		float distance = transform.position.z - Camera.main.transform.position.z;
@@ -93,8 +94,10 @@ public class PlayerController : MonoBehaviour {
 			missile.Hit ();
 			health -= missile.Damage ();
 			if (health <= 0) {
-				scoreKeeper.Reset ();
+				scoreKeeper.Die ();
 				AudioSource.PlayClipAtPoint (playerDeadAudioClip, this.transform.position);
+				LevelManager lm = GameObject.Find ("LevelManager").GetComponent<LevelManager> ();
+				lm.loadLevel ("Scenes/Win");
 				Destroy (gameObject);
 			}
 		}
