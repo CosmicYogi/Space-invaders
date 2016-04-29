@@ -18,7 +18,6 @@ public class PlayerController : MonoBehaviour {
 	public GameObject laser;
 	public AudioClip playerDeadAudioClip;
 	public AudioClip laserShootAudioClip;
-	//public LevelManager lm;
 	void Start () {
 		currentinput = inputMethods.Mouse;
 		float distance = transform.position.z - Camera.main.transform.position.z;
