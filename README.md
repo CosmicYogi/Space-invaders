@@ -1,7 +1,8 @@
 #Space Invaders
 
 This is a Space Invaders clone made on Unity 3D via C#.
-
+You can play the game at given link.
+http://mitesh504.github.io/Space-invaders/
 ##Scripting classes / Scripts
 * EnemyBehaviour.cs
 * EnemyProjectile.cs
