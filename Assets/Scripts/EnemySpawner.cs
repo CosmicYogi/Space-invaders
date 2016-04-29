@@ -53,7 +53,11 @@ public class EnemySpawner : MonoBehaviour {
 			MoveLeft ();
 			break;
 		}
-			
+
+		if (AllMembersDead ()) {
+			print ("all ememies are dead");
+			ReSpawn ();
+		}
 	}
 
 	void MoveLeft(){
@@ -63,5 +67,20 @@ public class EnemySpawner : MonoBehaviour {
 	void MoveRight(){
 		//For moving right.
 		transform.position += new Vector3 (speed * Time.deltaTime, 0f, 0f);
+	}
+
+	bool AllMembersDead(){
+		foreach (Transform childGameObjects in transform) {
+			if (childGameObjects.childCount > 0){
+				return false; // As the condition is done the function returnes false.
+				}
+			}
+			return true;
+	}
+	void ReSpawn(){
+		foreach (Transform child in transform) {
+			GameObject enemy = Instantiate (enemyPrefab, child.transform.position , Quaternion.identity) as GameObject;
+			enemy.transform.parent = child;
+		}
 	}
 }
